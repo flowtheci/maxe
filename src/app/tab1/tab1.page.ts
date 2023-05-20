@@ -1,6 +1,7 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Camera, CameraResultType, CameraSource} from "@capacitor/camera";
 import {Component} from "@angular/core";
+import {GOOGLE_VISION_API_KEY, USER_PROJECT} from 'src/app/key';
 
 const GOOGLE_VISION_API_URL = 'https://vision.googleapis.com/v1/images:annotate';
 
