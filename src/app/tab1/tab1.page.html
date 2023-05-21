@@ -52,7 +52,7 @@
 
     <h1 class="header-text">Add a <span class="funky">Receipt</span></h1>
     <p class="description-text">Start by taking a photo of your receipt. We will automatically itemize it for you, and split the cost between your household.</p>
-    <div (click)="getReceipt()" class="button">
+    <div (click)="demo()" class="button">
       <svg class="icon" width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M15.44 3.23653C15.48 3.30645 15.55 3.35639 15.64 3.35639C18.04 3.35639 20 5.31422 20 7.71155V13.645C20 16.0423 18.04 18.0001 15.64 18.0001H4.36C1.95 18.0001 0 16.0423 0 13.645V7.71155C0 5.31422 1.95 3.35639 4.36 3.35639C4.44 3.35639 4.52 3.31644 4.55 3.23653L4.61 3.11666C4.64448 3.04409 4.67987 2.96955 4.71579 2.89389C4.97161 2.35504 5.25463 1.75891 5.43 1.40856C5.89 0.509556 6.67 0.010111 7.64 0.00012207H12.35C13.32 0.010111 14.11 0.509556 14.57 1.40856C14.7275 1.7232 14.9674 2.23002 15.1987 2.71851C15.2464 2.81933 15.2938 2.91936 15.34 3.01677L15.44 3.23653ZM14.71 7.07226C14.71 7.57171 15.11 7.97127 15.61 7.97127C16.11 7.97127 16.52 7.57171 16.52 7.07226C16.52 6.57282 16.11 6.16327 15.61 6.16327C15.11 6.16327 14.71 6.57282 14.71 7.07226ZM8.27 8.62054C8.74 8.15107 9.35 7.90134 10 7.90134C10.65 7.90134 11.26 8.15107 11.72 8.61055C12.18 9.07004 12.43 9.67937 12.43 10.3286C12.42 11.6672 11.34 12.7559 10 12.7559C9.35 12.7559 8.74 12.5062 8.28 12.0467C7.82 11.5872 7.57 10.9779 7.57 10.3286V10.3187C7.56 9.68936 7.81 9.08003 8.27 8.62054ZM12.77 13.1056C12.06 13.8148 11.08 14.2543 10 14.2543C8.95 14.2543 7.97 13.8447 7.22 13.1056C6.48 12.3564 6.07 11.3775 6.07 10.3286C6.06 9.2898 6.47 8.31089 7.21 7.56172C7.96 6.81255 8.95 6.40301 10 6.40301C11.05 6.40301 12.04 6.81255 12.78 7.55173C13.52 8.3009 13.93 9.2898 13.93 10.3286C13.92 11.4174 13.48 12.3963 12.77 13.1056Z" fill="white"/>
       </svg>
@@ -67,17 +67,19 @@
     <p class="description-text d2">This usually takes up to a minute. We itemize your receipts automatically with each item's cost added, and will split it with everyone in your household.</p>
     <ion-spinner class="spinner"></ion-spinner>
   </div>
-  <ion-list *ngIf="currentStatus === 4">
-    <ion-item class="item" *ngFor="let item of items">
-      <h1 class="text">{{item.name}}</h1>
-      <div class="data">
-        <ion-label class="label">{{"Kogus: " + item.quantity}}</ion-label>
-        <ion-label class="label">{{"Hind: " + item.cost}}</ion-label>
-        <ion-label class="label">{{"Kokku: " + item.sum}}</ion-label>
-      </div>
-    </ion-item>
-  </ion-list>
-  <h1 *ngIf="currentStatus === 4">Kokku: {{getTotal()}}</h1>
+  <div *ngIf="currentStatus === 4" class="final_container">
+    <ion-list>
+      <ion-item class="item" *ngFor="let item of items">
+        <h1 class="text">{{item.name}}</h1>
+        <div class="data">
+          <ion-label class="label">{{"Kogus: " + item.quantity}}</ion-label>
+          <ion-label class="label">{{"Hind: " + item.cost}}</ion-label>
+          <ion-label class="label">{{"Kokku: " + item.sum}}</ion-label>
+        </div>
+      </ion-item>
+    </ion-list>
+    <h1 class="text">Kokku: {{getTotal()}}</h1>
+  </div>
 </div>
 
 
