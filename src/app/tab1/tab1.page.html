@@ -22,8 +22,9 @@
         <ion-label>{{"Hind: " + item.cost}}</ion-label>
         <ion-label>{{"Kokku: " + item.sum}}</ion-label>
       </div>
-
     </ion-item>
+    <h1>{{'Kokku:' + this.total}}</h1>
 </ion-list>
+<ion-spinner *ngIf="!this.loaded"></ion-spinner>
 
 </ion-content>

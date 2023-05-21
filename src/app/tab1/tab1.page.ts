@@ -1,11 +1,11 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Camera, CameraResultType, CameraSource} from "@capacitor/camera";
 import {Component} from "@angular/core";
-import {DEMO_IMAGE, GOOGLE_VISION_API_KEY, OPENAI_API_KEY, USER_PROJECT} from 'src/app/key';
+import {GOOGLE_VISION_API_KEY, OPENAI_API_KEY, USER_PROJECT} from 'src/app/key';
 
 const GOOGLE_VISION_API_URL = 'https://vision.googleapis.com/v1/images:annotate';
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
-const PROMPT = 'The following is a Google Vision OCR API result of an Estonian grocery store receipt. Format the input, and from it create a table with the names of items, their quantity, and the total price of the item. Also include the total price of the whole receipt. Output the result in a JSON format, where each item is an object in an array with the key "items". Each object has the table header as the key (in lowercase), and the value of the field as the value. The fields in objects in this array should only use these keys: "name", "cost", "sum", "quantity". The cost of the item should be the cost of a single item in the JSON output. The total price, price without taxes / with taxes, and other relevant info should be in seperate key value pairs outside the "items" array. When you return an output, ONLY return the json, and do not add any other text. The JSON keys should be in english, and always from the following words: "items", "total_sum", "total_sum_no_taxes", "tax_20", "to_pay", \n \n';
+const PROMPT = 'The following is a Google Vision OCR API result of an Estonian grocery store receipt. Format the input, and from it create a table with the names of items, their quantity, and the total price of the item. Also include the total price of the whole receipt. Output the result in a JSON format, where each item is an object in an array with the key "items". Each object has the table header as the key (in lowercase), and the value of the field as the value. The fields in objects in this array should only use these keys: "name", "cost", "sum", "quantity". The total price, price without taxes / with taxes, and other relevant info should be in seperate key value pairs outside the "items" array. When you return an output, ONLY return the json, and do not add any other text. The JSON keys should be in english, and always from the following words: "items", "total_sum", "total_sum_no_taxes", "tax_20", "to_pay", \n \n';
 
 @Component({
   selector: 'app-tab1',
@@ -14,13 +14,11 @@ const PROMPT = 'The following is a Google Vision OCR API result of an Estonian g
 })
 
 export class Tab1Page {
-  private loaded = true;
+  loaded = true;
   items = [{name: 'test', quantity: 0, cost: '0.00', sum: '0.00'}];
+  total = 0.00;
   constructor(private http: HttpClient) {}
 
-  getImage() {
-    return DEMO_IMAGE;
-  }
 
 
   async takePhoto() {
@@ -36,12 +34,22 @@ export class Tab1Page {
 
   async getReceipt() {
     this.loaded = false;
-    const photo = await this.takePhoto();
-    const response = await this.processImage(photo as unknown as string);
+    const photo = (await this.takePhoto()).base64String;
+    if (photo == undefined) {return;}
+    const response = await this.processImage(photo);
     const json = JSON.parse(await this.sendOpenAIRequest(response));
     this.items = json.items;
+    this.total = this.getTotal();
     this.loaded = true;
 
+  }
+
+  getTotal() {
+    let sum = 0;
+    for (let item of this.items) {
+      sum += item.sum as unknown as number;
+    }
+    return sum;
   }
 
 
