@@ -1,13 +1,13 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Camera, CameraResultType, CameraSource} from "@capacitor/camera";
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {GOOGLE_VISION_API_KEY, OPENAI_API_KEY, USER_PROJECT} from 'src/app/key';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 
 const GOOGLE_VISION_API_URL = 'https://vision.googleapis.com/v1/images:annotate';
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
-const PROMPT = 'The following is a Google Vision OCR API result of an Estonian grocery store receipt. Format the input, and from it create a table with the names of items, their quantity, and the total price of the item. Also include the total price of the whole receipt. Output the result in a JSON format, where each item is an object in an array with the key "items". Each object has the table header as the key (in lowercase), and the value of the field as the value. The fields in objects in this array should only use these keys: "name", "cost", "sum", "quantity". The total price, price without taxes / with taxes, and other relevant info should be in seperate key value pairs outside the "items" array. When you return an output, ONLY return the json, and do not add any other text. The JSON keys should be in english, and always from the following words: "items", "total_sum", "total_sum_no_taxes", "tax_20", "to_pay", \n \n';
+const PROMPT = 'The following is a Google Vision OCR API result of an Estonian grocery store receipt. Format the input, and from it create a table with the names of items, their quantity, and the total price of the item. Also include the total price of the whole receipt. Output the result in a JSON format, where each item is an object in an array with the key "items". Each object has the table header as the key (in lowercase), and the value of the field as the value. The fields in objects in this array should only use these keys: "name", "cost", "sum", "quantity". The name field should be capitalized correctly, for example "Koorejäätis "Eriti Rammus" maasika". Also, if the name ends in the middle of a word, try your best to autocomplete the item name. For example: KONDENS -> Kondenspiima The total price, price without taxes / with taxes, and other relevant info should be in seperate key value pairs outside the "items" array. When you return an output, ONLY return the json, and do not add any other text. The JSON keys should be in english, and always from the following words: "items", "total_sum", "total_sum_no_taxes", "tax_20", "to_pay", \n \n';
 
 const RESPONSE = {
   "items": [
@@ -59,12 +59,16 @@ const RESPONSE = {
   ]
 })
 
-export class Tab1Page {
+export class Tab1Page implements OnInit {
 
   public currentStatus = Status.WAITING;
   items = [{name: 'test', quantity: '0', cost: '0.00', sum: '0.00'}];
   total: string = '0.00';
   constructor(private http: HttpClient) {}
+
+  async ngOnInit() {
+    this.demo();
+  }
 
 
   async takePhoto() {
@@ -104,6 +108,28 @@ export class Tab1Page {
       sum += Number.parseFloat(item.sum);
     }
     return sum.toFixed(2);
+  }
+
+  formatQuantity(quantity: string) {
+    return Number.parseInt(quantity).toFixed(0);
+  }
+
+  getTotalCost(cost: string, quantity: string) {
+    return (Number.parseFloat(cost) * Number.parseInt(quantity)).toFixed(2) + '€';
+  }
+
+  removeQuantity(i: number) {
+    let quantity = Number.parseInt(this.items[i].quantity);
+    if (quantity >= 1) {
+      this.items[i].quantity = (quantity - 1).toFixed(0);
+      this.items[i].sum = this.getTotalCost(this.items[i].cost, this.items[i].quantity);
+    }
+  }
+
+  addQuantity(i: number) {
+    let quantity = Number.parseInt(this.items[i].quantity);
+    this.items[i].quantity = (quantity + 1).toFixed(0);
+    this.items[i].sum = this.getTotalCost(this.items[i].cost, this.items[i].quantity);
   }
 
 
