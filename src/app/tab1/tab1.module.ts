@@ -19,5 +19,8 @@ import {HttpClientModule} from "@angular/common/http";
 
   ],
   declarations: [Tab1Page],
+  exports: [
+    Tab1Page
+  ]
 })
 export class Tab1PageModule {}

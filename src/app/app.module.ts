@@ -7,10 +7,11 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {CommonModule} from "@angular/common";
+import {Tab1PageModule} from "./tab1/tab1.module";
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, CommonModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, CommonModule, Tab1PageModule],
   exports: [CommonModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

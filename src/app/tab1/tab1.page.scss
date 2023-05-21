@@ -1,6 +1,22 @@
 .button {
   align-self: center;
   margin-top: 20px;
+  background-color: #5096FF;
+  padding: 10px 20px 10px 20px;
+  color: #ffffff;
+  font-family: 'Figtree', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+}
+
+.icon {
+  margin-right: 8px;
+  margin-top: -2px;
 }
 
 .data {
@@ -9,6 +25,47 @@
   align-self: flex-end;
 }
 
+.header-text {
+  font-family: 'Figtree', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.img-container {
+  align-self: center;
+  width: 50%;
+  margin-top: 20vh;
+}
+
+.funky {
+  color: #5096FF;
+}
+
+.description-text {
+  text-align: center;
+  margin-right: 12vw;
+  margin-left: 12vw;
+  font-family: 'Figtree', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+}
+
 .text {
   width: 80%;
+}
+
+.home-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background-color: #F9F9F9;
+  padding-bottom: 50vh;
+}
+
+ion-list {
+  background-color: #F9F9F9;
 }

@@ -14,12 +14,19 @@ const PROMPT = 'The following is a Google Vision OCR API result of an Estonian g
 })
 
 export class Tab1Page {
+<<<<<<< Updated upstream
   loaded = true;
+=======
+  public currentStatus = Status.WAITING;
+>>>>>>> Stashed changes
   items = [{name: 'test', quantity: 0, cost: '0.00', sum: '0.00'}];
   total = 0.00;
   constructor(private http: HttpClient) {}
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
   async takePhoto() {
     console.log('takePhoto');
@@ -33,6 +40,7 @@ export class Tab1Page {
 
 
   async getReceipt() {
+<<<<<<< Updated upstream
     this.loaded = false;
     const photo = (await this.takePhoto()).base64String;
     if (photo == undefined) {return;}
@@ -41,6 +49,16 @@ export class Tab1Page {
     this.items = json.items;
     this.total = this.getTotal();
     this.loaded = true;
+=======
+    this.currentStatus = Status.TAKING_PHOTO;
+    const photo = await this.takePhoto();
+    this.currentStatus = Status.PROCESSING_IMAGE;
+    const response = await this.processImage(photo as unknown as string);
+    this.currentStatus = Status.PROCESSING_INPUTS;
+    const json = JSON.parse(await this.sendOpenAIRequest(response));
+    this.items = json.items;
+    this.currentStatus = Status.ITEM_MENU;
+>>>>>>> Stashed changes
 
   }
 
@@ -114,4 +132,13 @@ export class Tab1Page {
       throw error;
     }
   }
+}
+
+
+export enum Status {
+  WAITING,
+  TAKING_PHOTO,
+  PROCESSING_IMAGE,
+  PROCESSING_INPUTS,
+  ITEM_MENU,
 }
