@@ -2,3 +2,13 @@
   align-self: center;
   margin-top: 20px;
 }
+
+.data {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+}
+
+.text {
+  width: 80%;
+}

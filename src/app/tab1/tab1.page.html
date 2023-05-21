@@ -12,6 +12,18 @@
       <ion-title size="large">Tab 1</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-button (click)="takePhoto()" class="button">Lisa tšekk</ion-button>
+  <ion-button (click)="getReceipt()" class="button">Lisa tšekk</ion-button>
+
+<ion-list>
+    <ion-item class="item" *ngFor="let item of items">
+      <h1 class="text">{{item.name}}</h1>
+      <div class="data">
+        <ion-label>{{"Kogus: " + item.quantity}}</ion-label>
+        <ion-label>{{"Hind: " + item.cost}}</ion-label>
+        <ion-label>{{"Kokku: " + item.sum}}</ion-label>
+      </div>
+
+    </ion-item>
+</ion-list>
 
 </ion-content>
