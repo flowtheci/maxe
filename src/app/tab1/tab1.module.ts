@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import {HttpClientModule} from "@angular/common/http";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import {HttpClientModule} from "@angular/common/http";
     HttpClientModule,
     ExploreContainerComponentModule,
     Tab1PageRoutingModule,
+    BrowserAnimationsModule,
 
   ],
   declarations: [Tab1Page],
